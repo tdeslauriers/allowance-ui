@@ -12,7 +12,7 @@
     <tbody>
         {#each allowances as allowance}
             <td>{allowance.firstname} {allowance.lastname}</td>
-            <td>${allowance.amount}</td>
+            <td class="balance">${allowance.amount}</td>
         {/each}
     </tbody>
 </table>
@@ -32,5 +32,9 @@ th, td {
   text-align: left;
   padding-right: 25px;
   border-bottom: 1px solid #175c15;
+}
+
+td.balance{
+  color:#069bf1;
 }
 </style>

@@ -63,9 +63,9 @@ button:focus {
 }
 
 :root {
-	--colorFg: #175c15;
+	--colorFg: #3a3b3b;
 	--colorFgInverse: #fff;
-	--colorBg: #c5f8da;
+	--colorBg: #e2e2e2;
 	--colorCta: #e64224;
   
 	--spacingXSmall: 0.25rem;

@@ -2,26 +2,34 @@
   import {onMount} from "svelte";
 
   import AllowanceTable from './AllowanceTable.svelte';
+  import DailyTasks from './DailyTasks.svelte';
   
   import {httpGet} from "../common/api";
 
+
   let allowances = [];
+  
   onMount(async function () {
     const {data} = await httpGet("/allowance/all");
     allowances = data;
   })
   </script>
 
-<header>
-    <span class="preamble">Welcome to</span>
-    <h1>Allowance</h1>
-</header>
+<div>
+  <header>
+      <span class="preamble">Welcome to</span>
+      <h1>Allowance</h1>
+  </header>
+  
+  <p class="greeting">
+      This is where you track all allowance balances and activities.
+  </p>
+  
+  <AllowanceTable allowances={allowances} />
 
-<p class="greeting">
-    This is where you track all allowance balances and activities.
-</p>
+  <DailyTasks allowances={allowances} />
+</div>
 
-<AllowanceTable allowances={allowances} />
 
 <style>
   header {
@@ -35,6 +43,7 @@
     font-size: var(--typeSizeXXLarge);
     font-weight: var(--typeWeightBold);
     line-height: var(--typeLineHeightTight);
+    color: #069bf1;
   }
 
   .greeting {

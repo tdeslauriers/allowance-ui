@@ -9,7 +9,7 @@
 
   let allowances = [];
   
-  onMount(async function () {
+  onMount(async _ => {
     const {data} = await httpGet("/allowance/all");
     allowances = data;
   })
@@ -27,7 +27,7 @@
   
   <AllowanceTable allowances={allowances} />
 
-  <DailyTasks allowances={allowances} />
+  <DailyTasks />
 </div>
 
 
@@ -43,7 +43,6 @@
     font-size: var(--typeSizeXXLarge);
     font-weight: var(--typeWeightBold);
     line-height: var(--typeLineHeightTight);
-    color: #069bf1;
   }
 
   .greeting {

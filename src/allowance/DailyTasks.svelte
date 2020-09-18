@@ -1,23 +1,73 @@
 <script>
-   export let allowances = [];
+import Button from "../common/Button.svelte";
+import { httpGet, httpPut } from "../common/api";
+import { onMount } from "svelte";
+
+export let tasks = [];
+
+onMount(async _ => {
+  const {data} = await httpGet("/task/daily");
+  tasks = data;
+})
+
+async function updateIsComplete(i) {
+    const updateCommand = {
+        taskId: tasks[i].taskId,
+        updateStatus: !tasks[i].isComplete
+    }
+    tasks[i].isComplete = updateCommand.updateStatus;
+    
+    const {ok} = await httpPut('/task/complete', updateCommand);
+    if(ok){
+      tasks[i].isComplete = updateCommand.updateStatus;
+     }
+
+  }
+
+  async function updateIsQuality(i) {
+    const updateCommand = {
+        taskId: tasks[i].taskId,
+        updateStatus: !tasks[i].isQuality
+    }
+    tasks[i].isQuality = updateCommand.updateStatus;
+
+    const {ok} = await httpPut('/task/quality', updateCommand);
+    if(ok){
+      tasks[i].isQuality = updateCommand.updateStatus;
+     }
+
+  }
 
 </script>
 
 <div class="tasks">
   <h1>todo:</h1>
   <ul class="task-list">
-      {#each allowances as allowance}
-        {#each allowance.tasktype as tt}
-          {#each tt.task as t}
-            <li id="{t.id}" class="task">
-              <input id="{t.id}" type="checkbox" />
-              <label for="{t.id}" class="tick" />
+      {#each tasks as task, i}
+            <li id="{task.id}" class="task">
               <span>
-                {allowance.firstname} {tt.name} {t.date}
-              </span>
+                {task.firstname} - {task.taskTypeName} 
+              </span>              
+              {#if task.isComplete}
+                <Button statusTrue on:click = {() => updateIsComplete(i)}>
+                  {task.isComplete ? 'Done' : 'Not Done'}
+                </Button>
+              {:else}
+                <Button on:click = {() => updateIsComplete(i)}>
+                  {task.isComplete ? 'Done' : 'Not Done'}
+                </Button>
+              {/if}
+              {#if task.isQuality}
+                <Button statusTrue on:click = {() => updateIsQuality(i)}>
+                  {task.isQuality ? 'Satisfactory' : 'Unsatisfactory'}
+                </Button>
+              {:else}
+                <Button on:click = {() => updateIsQuality(i)}>
+                  {task.isQuality ? 'Satisfactory' : 'Unsatisfactory'}
+                </Button>
+              {/if}
             </li>
-          {/each}
-        {/each}
+
       {/each}
     </ul>
 </div>
@@ -29,33 +79,14 @@
   padding: 0;
   }
   
+  h1 {
+    opacity: 50%;
+  }
+
+
   .tasks{
     margin-top: auto;
-  }
-
-  h1{
-     color:  #73c8fa;
-  }
-
-  .tick{
-    width: 30px;
-    height: 30px;
-    border: 3px solid #333;
-    border-radius: 50%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-  .tick::before {
-  content: '✓';
-  font-size: 20px;
-  display: none;
-  }
-  
-  input[type="checkbox"] {
-  display: none;
-  
+    width: max-content;
   }
 
   .task-list {

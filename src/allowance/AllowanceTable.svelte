@@ -31,10 +31,10 @@ th, td {
   height: 50px;
   text-align: left;
   padding-right: 25px;
-  border-bottom: 1px solid #175c15;
+  border-bottom: 1px solid #222424;
 }
 
 td.balance{
-  color:#069bf1;
+  color:#23a2f6;
 }
 </style>

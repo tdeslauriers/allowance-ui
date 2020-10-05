@@ -5,6 +5,14 @@ import { onMount } from "svelte";
 
 export let tasks = [];
 
+let today = new Date;
+let dd = String(today.getDate()).padStart(2, '0');
+let mm = String(today.getMonth() + 1).padStart(2, '0');
+let yyyy = today.getFullYear();
+
+today = yyyy + "-" + mm + "-" + dd;
+
+
 onMount(async _ => {
   const {data} = await httpGet("/task/daily");
   tasks = data;
@@ -41,7 +49,7 @@ async function updateIsComplete(i) {
 </script>
 
 <div class="tasks">
-  <h1>todo:</h1>
+  <h1>todo: <span>{today}</span></h1>
   <ul class="task-list">
       {#each tasks as task, i}
             <li id="{task.id}" class="task">
